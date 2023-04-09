@@ -1,33 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 function AuditoriumManager() {
   const [shows, setShows] = useState([]);
   const [showName, setShowName] = useState("");
-  const [price, setPrice] = useState("");
+  const [balconyprice, setBalconyPrice] = useState("");
+  const [ordinaryprice, setOrdinaryPrice] = useState("");
 
   const handleShowNameChange = (event) => {
     setShowName(event.target.value);
   };
 
   const handlePriceChange = (event) => {
-    setPrice(event.target.value);
+    setBalconyPrice(event.target.value);
+  };
+  const handleOrdinaryPriceChange = (event) => {
+    setOrdinaryPrice(event.target.value);
   };
 
-  const handleAddShow = (event) => {
+  const handleAddShow = async (event) => {
     event.preventDefault();
+
     const newShow = {
       name: showName,
-      price: price,
+      balconyprice: balconyprice,
+      ordinaryprice: ordinaryprice,
     };
-    setShows([...shows, newShow]);
+
+    // setShows([...shows, newShow]);
     setShowName("");
-    setPrice("");
+    setBalconyPrice("");
+    setOrdinaryPrice("");
+    try {
+      const docRef = await addDoc(collection(db, "shows"), {
+        ...newShow,
+      });
+      console.log(newShow);
+      setShows([...shows, newShow]);
+
+      // console.log(docRef);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
+  const fetchShows = async () => {
+    await getDocs(collection(db, "shows")).then((querySnapshot) => {
+      const newShows = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setShows(newShows);
+      console.log(shows.length);
+    });
+  };
+
+  useEffect(() => {
+    fetchShows();
+  }, []);
   return (
     <div>
       <h1>Student Auditorium Management Software</h1>
-      <form onSubmit={handleAddShow}>
+      <form>
         <label>
           Show Name:
           <input
@@ -39,26 +74,45 @@ function AuditoriumManager() {
         </label>
         <br />
         <label>
-          Price:
+          Balcony seat Price:
           <input
             type="text"
-            value={price}
+            value={balconyprice}
             onChange={handlePriceChange}
             className="border-2 border-sky-500"
           />
         </label>
         <br />
-        <button type="submit">Add Show</button>
+        <label>
+          Ordinary seat Price:
+          <input
+            type="text"
+            value={ordinaryprice}
+            onChange={handleOrdinaryPriceChange}
+            className="border-2 border-sky-500"
+          />
+        </label>
+        <button type="submit" onClick={handleAddShow}>
+          Add Show
+        </button>
       </form>
       <h2>Shows</h2>
       <ul>
-        {shows.map((show, index) => (
+        {shows?.map((show, index) => (
           <li key={index}>
-            <span>{show.name} - </span>
-            <span>${show.price}</span>
+            <div className="flex">
+              <div>{show.name} - </div>
+              <div className="flex ">
+                <div>Balcony:${show.balconyprice}</div>
+
+                <div>Ordinary:${show.ordinaryprice}</div>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
+      {/* <button onClick={handleAddShow}>AddData</button> */}
+      {/* <button onClick={fetchShows}>FetchData</button> */}
     </div>
   );
 }
