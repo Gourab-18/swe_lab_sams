@@ -6,6 +6,11 @@ import Home from "./pages/Home";
 import AllShows from "./components/AllShows";
 import CreateShow from "./components/CreateShow";
 import Login from "./pages/Login";
+import Salesperson from "./components/Salesperson";
+import UserDashboard from "./components/UserDashboard";
+import AddExpense from "./pages/AddExpense";
+import Accountants from "./pages/Accountants";
+import BookTicket from "./pages/BookTicket";
 function App() {
   return (
     <>
@@ -15,7 +20,12 @@ function App() {
       {/* <AllShows /> */}
 
       {/* <CreateShow /> */}
-      <Login />
+      {/* <Login /> */}
+      {/* <Salesperson /> */}
+      {/* <UserDashboard/> */}
+      {/* <AddExpense /> */}
+      {/* <Accountants/> */}
+      <BookTicket />
     </>
   );
 }
