@@ -1,11 +1,27 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 const AllShows = () => {
+  const [shows, setShows] = useState([]);
+  const fetchShows = async () => {
+    await getDocs(collection(db, "shows")).then((querySnapshot) => {
+      const newShows = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setShows(newShows);
+      console.log(shows.length);
+    });
+  };
+
+  useEffect(() => {
+    fetchShows();
+  }, []);
   return (
     <>
       <div className="flex justify-center flex-col items-center h-[70vh] font-sans font-semibold text-slate-100 ">
         <div className="mb-4">
-            <h1>All Shows</h1>
+          <h1>All Shows</h1>
         </div>
         <div class="relative shadow-md sm:rounded-lg w-[80vw]  bg-[rgb(55,56,56)]">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -32,73 +48,35 @@ const AllShows = () => {
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-gray-200 dark:border-gray-700 font-sans font-semibold text-slate-10">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  dark:text-white"
-                >
-                  Pathaan
-                </th>
-                <td class="px-6 py-4 font-sans font-semibold text-slate-10">
-                  08/02/23
-                </td>
-                <td class="px-6 py-4 ">10pm</td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">$999</td>
-                <td class="px-6 py-4">$999</td>
-              </tr>
-              <tr class="border-b border-gray-200 dark:border-gray-700">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  dark:text-white"
-                >
-                  Pathaan
-                </th>
-                <td class="px-6 py-4">08/02/23</td>
-                <td class="px-6 py-4 ">10pm</td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">$999</td>
-                <td class="px-6 py-4">$999</td>
-              </tr>
-              <tr class="border-b border-gray-200 dark:border-gray-700">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  dark:text-white"
-                >
-                  Pathaan
-                </th>
-                <td class="px-6 py-4">08/02/23</td>
-                <td class="px-6 py-4 ">10pm</td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">$999</td>
-                <td class="px-6 py-4">$999</td>
-              </tr>
-              <tr class="border-b border-gray-200 dark:border-gray-700">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  dark:text-white"
-                >
-                  Pathaan
-                </th>
-                <td class="px-6 py-4">08/02/23</td>
-                <td class="px-6 py-4 ">10pm</td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">$999</td>
-                <td class="px-6 py-4">$999</td>
-              </tr>
-              <tr>
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  dark:text-white"
-                >
-                  Pathaan
-                </th>
-                <td class="px-6 py-4">08/02/23</td>
-                <td class="px-6 py-4 ">10pm</td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">$999</td>
-                <td class="px-6 py-4">$999</td>
-              </tr>
+              {shows?.map(
+                ({
+                  name,
+                  balconySeats,
+                  date,
+                  time,
+                  balconyprice,
+                  ordinaryprice,
+                  regularSeats,
+                }) => {
+                  return (
+                    <tr class="border-b border-gray-200 dark:border-gray-700 font-sans font-semibold text-slate-10">
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  dark:text-white"
+                      >
+                        {name}
+                      </th>
+                      <td class="px-6 py-4 font-sans font-semibold text-slate-10">
+                        {date}
+                      </td>
+                      <td class="px-6 py-4 ">{time}</td>
+                      <td class="px-6 py-4">2</td>
+                      <td class="px-6 py-4">{ordinaryprice}</td>
+                      <td class="px-6 py-4">{balconyprice}</td>
+                    </tr>
+                  );
+                }
+              )}
             </tbody>
           </table>
         </div>

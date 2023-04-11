@@ -17,7 +17,7 @@ function App() {
       {/* <Home /> */}
       {/* <AuditoriumManager /> */}
       <Navbar />
-      {/* <AllShows /> */}
+      <AllShows />
 
       {/* <CreateShow /> */}
       {/* <Login /> */}
@@ -25,7 +25,7 @@ function App() {
       {/* <UserDashboard/> */}
       {/* <AddExpense /> */}
       {/* <Accountants/> */}
-      <BookTicket />
+      {/* <BookTicket /> */}
     </>
   );
 }
