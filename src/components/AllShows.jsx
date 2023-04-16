@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { Link } from "react-router-dom";
 const AllShows = () => {
   const [shows, setShows] = useState([]);
   const fetchShows = async () => {
@@ -82,12 +83,14 @@ const AllShows = () => {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <button
-          type="button"
-          class="text-white   bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium  text-sm px-6 py-2 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-        >
-          Go Back
-        </button>
+        <Link to="/">
+          <button
+            type="button"
+            class="text-white   bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium  text-sm px-6 py-2 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+          >
+            Go Home
+          </button>
+        </Link>
       </div>
     </>
   );

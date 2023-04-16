@@ -6,7 +6,7 @@ const ProfileCard = () => {
       <div className="h-[17vh] w-[20vw] bg-[rgb(65,66,67)] flex flex-col justify-between">
         <div className=" m-2 flex gap-2">
           <div className="bg-[rgb(82,83,83)] w-6 h-6 rounded-full flex justify-center items-center">
-            G
+            A
           </div>
           <div>
             <h1>Gourab</h1>

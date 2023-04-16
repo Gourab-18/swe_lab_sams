@@ -1,5 +1,6 @@
-import React from 'react'
+import React from "react";
 import { BsFillTrashFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Salesperson = () => {
   return (
@@ -82,16 +83,18 @@ const Salesperson = () => {
           </table>
         </div>
         <div className="mt-4">
-          <button
-            type="button"
-            class="text-white   bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium  text-sm px-6 py-2 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-          >
-            Back
-          </button>
+          <Link to="/">
+            <button
+              type="button"
+              class="text-white   bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium  text-sm px-6 py-2 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+            >
+              Back
+            </button>
+          </Link>
         </div>
       </div>
     </>
   );
-}
+};
 
-export default Salesperson
+export default Salesperson;
