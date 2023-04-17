@@ -2,38 +2,55 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
-
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 const Login = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState({
-    name: "",
-    email: "",
-    pass: "",
-  });
-  const [errorMsg, setErrorMsg] = useState("");
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-  const handleSubmission = () => {
-    if (!values.name || !values.email || !values.pass) {
-      setErrorMsg("Fill all fields");
-      return;
-    }
-    setErrorMsg("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [data, setData] = useState([]);
 
-    setSubmitButtonDisabled(true);
-    createUserWithEmailAndPassword(auth, values.email, values.pass)
-      .then(async (res) => {
-        setSubmitButtonDisabled(false);
-        const user = res.user;
-        await updateProfile(user, {
-          displayName: values.name,
-        });
-        navigate("/");
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // user.updateProfile({
+        //   displayName: name,
+        // });
+        // console.log("Hii");
+        // console.log(user);
+        navigate("/login");
+
+        // ...
       })
-      .catch((err) => {
-        setSubmitButtonDisabled(false);
-        setErrorMsg(err.message);
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // console.log(errorCode, errorMessage);
+        // ..
       });
+
+    const newShow = {
+      name: name,
+      email: email,
+    };
+
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        ...newShow,
+      });
+      // console.log(newShow);
+      setData([...data, newShow]);
+
+      // console.log(docRef);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   return (
@@ -52,12 +69,12 @@ const Login = () => {
                 User name
               </label>
               <input
-                onChange={(event) =>
-                  setValues((prev) => ({ ...prev, name: event.target.value }))
-                }
                 type="text"
                 className=" border  border-gray-300 text-gray-900 text-sm  block p-2.5 w-[50vw] bg-[rgb(65,66,67)] dark:placeholder-gray-400 dark:text-white"
                 required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Name"
               />
             </div>
             <div className="my-4">
@@ -65,12 +82,13 @@ const Login = () => {
                 Email
               </label>
               <input
-                type="text"
                 className=" border  border-gray-300 text-gray-900 text-sm  block p-2.5 w-[50vw] bg-[rgb(65,66,67)] dark:placeholder-gray-400 dark:text-white"
                 required
-                onChange={(event) =>
-                  setValues((prev) => ({ ...prev, email: event.target.value }))
-                }
+                type="email"
+                label="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
               />
             </div>
             <div className="my-4">
@@ -78,12 +96,13 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="text"
                 className=" border  border-gray-300 text-gray-900 text-sm  block p-2.5 w-[50vw] bg-[rgb(65,66,67)] dark:placeholder-gray-400 dark:text-white"
+                type="password"
+                label="Create password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                onChange={(event) =>
-                  setValues((prev) => ({ ...prev, pass: event.target.value }))
-                }
+                placeholder="Password"
               />
             </div>
           </form>
@@ -92,7 +111,7 @@ const Login = () => {
             <button
               type="button"
               class="text-white   bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium  text-sm px-6 py-2 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-              onClick={handleSubmission}
+              onClick={onSubmit}
             >
               Signup
             </button>

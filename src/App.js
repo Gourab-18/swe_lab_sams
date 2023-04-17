@@ -14,6 +14,8 @@ import Signup from "./pages/Signup";
 import Expenses from "./components/Expenses";
 import Login from "./pages/Login";
 import AddAccountants from "./components/AddAccountants";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -23,6 +25,7 @@ import {
   useParams,
 } from "react-router-dom";
 function App() {
+ 
   return (
     <>
       <Navbar />
