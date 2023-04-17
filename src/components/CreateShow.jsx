@@ -89,7 +89,7 @@ const CreateShow = () => {
         id: doc.id,
       }));
       setShows(newShows);
-      console.log(shows.length);
+      // console.log(shows.length);
     });
   };
 

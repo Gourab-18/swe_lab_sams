@@ -32,7 +32,7 @@ const AddExpense = () => {
       const docRef = await addDoc(collection(db, "expenses"), {
         ...newExpense,
       });
-      console.log(newExpense);
+      // console.log(newExpense);
       setExpenses([...expenses, newExpense]);
 
       // console.log(docRef);
