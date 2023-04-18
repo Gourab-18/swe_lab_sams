@@ -72,7 +72,7 @@ const CreateShow = () => {
       const docRef = await addDoc(collection(db, "shows"), {
         ...newShow,
       });
-      console.log(newShow);
+      // console.log(newShow);
       setShows([...shows, newShow]);
 
       // console.log(docRef);

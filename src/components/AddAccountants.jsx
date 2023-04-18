@@ -34,7 +34,7 @@ const AddAccountants = () => {
       const docRef = await addDoc(collection(db, "accountants"), {
         ...newExpense,
       });
-      console.log(newExpense);
+      // console.log(newExpense);
       setExpenses([...expenses, newExpense]);
 
       // console.log(docRef);

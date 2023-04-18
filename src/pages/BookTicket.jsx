@@ -104,9 +104,9 @@ const BookTicket = () => {
     }
 
     // calculate price
-    console.log(price);
+    // console.log(price);
     newShow.price = price;
-    console.log(newShow);
+    // console.log(newShow);
 
     // setShows([...shows, newShow]);
     setShowVal("");

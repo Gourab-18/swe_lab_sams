@@ -46,7 +46,7 @@ const Expenses = () => {
                 </thead>
                 <tbody>
                   {expenses?.map(({ amount, reason }) => {
-                    console.log(expenses);
+                    // console.log(expenses);
                     return (
                       <tr class="border-b border-gray-200 dark:border-gray-700 font-sans font-semibold text-slate-10">
                         <th
